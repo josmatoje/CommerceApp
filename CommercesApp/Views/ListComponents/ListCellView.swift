@@ -1,0 +1,146 @@
+//
+//  ListCellView.swift
+//  CommercesApp
+//
+//  Created by Jose Maria Mata Ojeda on 25/9/25.
+//
+
+import UIKit
+
+class ListCellView: UICollectionViewCell {
+    //MARK: parameters
+    public static let cellIdentifier: String = "ListCellView"
+    
+    private let topView: UIView = {
+        let topView = UIView()
+        topView.backgroundColor = .orange
+        topView.translatesAutoresizingMaskIntoConstraints = false
+        
+        topView.layer.cornerRadius = 16
+        topView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        
+        return topView
+    }()
+    
+    private let iconView: UIImageView = {
+        let iconView = UIImageView()
+        iconView.contentMode = .scaleAspectFit
+        iconView.clipsToBounds = true
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        return iconView
+    }()
+    
+    private let distanceLabel: UILabel = {
+        let distanceLabel = UILabel()
+        distanceLabel.textColor = .white
+        distanceLabel.font = .systemFont(ofSize: 18,
+                                     weight: .medium)
+        distanceLabel.translatesAutoresizingMaskIntoConstraints = false
+        return distanceLabel
+    }()
+    
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private let titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.textColor = .label
+        titleLabel.font = .systemFont(ofSize: 18,
+                                     weight: .medium)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        return titleLabel
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let descriptionLabel = UILabel()
+        descriptionLabel.textColor = .label
+        descriptionLabel.font = .systemFont(ofSize: 16,
+                                     weight: .light)
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        return descriptionLabel
+    }()
+
+    //MARK: init
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        contentView.backgroundColor = .systemBackground
+        contentView.addSubviews(topView, iconView, distanceLabel, imageView, titleLabel, descriptionLabel)
+        addConstraints()
+        contentView.layer.cornerRadius = 16
+        contentView.layer.shadowColor = UIColor.label.cgColor
+        contentView.layer.shadowOffset = CGSize(width: 1, height: 2)
+        contentView.layer.shadowOpacity = 0.1
+        contentView.layer.shadowRadius = 4
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("Unsuported")
+    }
+    
+    private func addConstraints() {
+        NSLayoutConstraint.activate([
+            
+            topView.heightAnchor.constraint(equalToConstant: 48),
+            
+            iconView.widthAnchor.constraint(equalToConstant: 32),
+            iconView.heightAnchor.constraint(equalToConstant: 32),
+            
+            imageView.widthAnchor.constraint(equalToConstant: 70),
+            imageView.heightAnchor.constraint(equalToConstant: 70),
+            
+            topView.topAnchor.constraint(equalTo: topAnchor),
+            topView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            iconView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            
+            distanceLabel.topAnchor.constraint(equalTo:  topAnchor, constant: 18),
+            distanceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16),
+            titleLabel.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -8),
+            
+            descriptionLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16),
+            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32)
+        ])
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        iconView.image = nil
+        distanceLabel.text = nil
+        imageView.image = nil
+        titleLabel.text = nil
+        descriptionLabel.text = nil
+    }
+    
+    public func configure(with viewModel: ListCellViewModel){
+        topView.backgroundColor = viewModel.categoryColor()
+        iconView.image = UIImage(named: viewModel.categoryIcon())
+        distanceLabel.text = viewModel.distance
+        viewModel.fetchImage { [weak self] result in //weak for no memory leaks from the cells by the image
+            switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        let image = UIImage(data: image)
+                        self?.imageView.image = image
+                    }
+                case .failure:
+                    print("Error fetching image")
+                let image: UIImage? = UIImage(named: "only_image")
+//                let image: UIImage? = UIImage(named: "placeholder")
+                    self?.imageView.image = image
+                    break
+                }
+        }
+    }
+}

@@ -6,30 +6,50 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		420B52D42E846B0B000D261E /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420B52D32E846B0B000D261E /* ListView.swift */; };
+		420B52D62E846C11000D261E /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420B52D52E846C11000D261E /* ListViewModel.swift */; };
+		420B52D82E846F8C000D261E /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420B52D72E846F8C000D261E /* UIViewExtension.swift */; };
+		420B52DD2E8557DE000D261E /* ListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420B52DC2E8557DE000D261E /* ListCellView.swift */; };
+		420B52DF2E8559DD000D261E /* ListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420B52DE2E8559DD000D261E /* ListCellViewModel.swift */; };
+		420B52E12E86F7F8000D261E /* ListCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 420B52E02E86F7F8000D261E /* ListCategoryView.swift */; };
+		424501DA2E844E17004E038B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 424501D12E844E17004E038B /* Assets.xcassets */; };
+		424501DC2E844E17004E038B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424501D42E844E17004E038B /* LaunchScreen.storyboard */; };
+		424501DD2E844E17004E038B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 424501D62E844E17004E038B /* Main.storyboard */; };
+		424501DE2E844E17004E038B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424501D02E844E17004E038B /* AppDelegate.swift */; };
+		424501DF2E844E17004E038B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424501D72E844E17004E038B /* SceneDelegate.swift */; };
+		424501E02E844E17004E038B /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424501D82E844E17004E038B /* DetailViewController.swift */; };
+		424501EF2E844E44004E038B /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424501E32E844E44004E038B /* Service.swift */; };
+		424501F02E844E44004E038B /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424501E52E844E44004E038B /* ListViewController.swift */; };
+		424501F12E844E44004E038B /* Commerce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424501EA2E844E44004E038B /* Commerce.swift */; };
+		424501F42E844E44004E038B /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424501E92E844E44004E038B /* Category.swift */; };
+		424501F52E844E44004E038B /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424501E82E844E44004E038B /* Address.swift */; };
+		424501F82E8450C8004E038B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 424501F62E8450C8004E038B /* Localizable.strings */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		420B52D32E846B0B000D261E /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		420B52D52E846C11000D261E /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
+		420B52D72E846F8C000D261E /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		420B52DC2E8557DE000D261E /* ListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCellView.swift; sourceTree = "<group>"; };
+		420B52DE2E8559DD000D261E /* ListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCellViewModel.swift; sourceTree = "<group>"; };
+		420B52E02E86F7F8000D261E /* ListCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCategoryView.swift; sourceTree = "<group>"; };
 		424501B82E844DDF004E038B /* CommercesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommercesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		424501D02E844E17004E038B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		424501D12E844E17004E038B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		424501D22E844E17004E038B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		424501D32E844E17004E038B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		424501D52E844E17004E038B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		424501D72E844E17004E038B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		424501D82E844E17004E038B /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		424501E32E844E44004E038B /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		424501E52E844E44004E038B /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		424501E82E844E44004E038B /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		424501E92E844E44004E038B /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		424501EA2E844E44004E038B /* Commerce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commerce.swift; sourceTree = "<group>"; };
+		424501F72E8450C8004E038B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		424501FB2E845197004E038B /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		424501CA2E844DE1004E038B /* Exceptions for "CommercesApp" folder in "CommercesApp" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 424501B72E844DDF004E038B /* CommercesApp */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		424501BA2E844DDF004E038B /* CommercesApp */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				424501CA2E844DE1004E038B /* Exceptions for "CommercesApp" folder in "CommercesApp" target */,
-			);
-			path = CommercesApp;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		424501B52E844DDF004E038B /* Frameworks */ = {
@@ -42,10 +62,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		420B52D92E8557AF000D261E /* ListComponents */ = {
+			isa = PBXGroup;
+			children = (
+				420B52DC2E8557DE000D261E /* ListCellView.swift */,
+				420B52E02E86F7F8000D261E /* ListCategoryView.swift */,
+			);
+			path = ListComponents;
+			sourceTree = "<group>";
+		};
+		420B52E32E86FEC4000D261E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				420B52D72E846F8C000D261E /* UIViewExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		424501AF2E844DDF004E038B = {
 			isa = PBXGroup;
 			children = (
-				424501BA2E844DDF004E038B /* CommercesApp */,
+				424501D92E844E17004E038B /* CommercesApp */,
 				424501B92E844DDF004E038B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -56,6 +93,87 @@
 				424501B82E844DDF004E038B /* CommercesApp.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		424501D92E844E17004E038B /* CommercesApp */ = {
+			isa = PBXGroup;
+			children = (
+				424501E42E844E44004E038B /* APIClient */,
+				424501E62E844E44004E038B /* Controllers */,
+				424501E72E844E44004E038B /* Managers */,
+				424501EC2E844E44004E038B /* Models */,
+				424501ED2E844E44004E038B /* ViewModels */,
+				424501EE2E844E44004E038B /* Views */,
+				424501E12E844E1A004E038B /* Resources */,
+				424501D22E844E17004E038B /* Info.plist */,
+			);
+			path = CommercesApp;
+			sourceTree = "<group>";
+		};
+		424501E12E844E1A004E038B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				420B52E32E86FEC4000D261E /* Extensions */,
+				424501D42E844E17004E038B /* LaunchScreen.storyboard */,
+				424501D62E844E17004E038B /* Main.storyboard */,
+				424501D72E844E17004E038B /* SceneDelegate.swift */,
+				424501D02E844E17004E038B /* AppDelegate.swift */,
+				424501D12E844E17004E038B /* Assets.xcassets */,
+				424501F62E8450C8004E038B /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		424501E42E844E44004E038B /* APIClient */ = {
+			isa = PBXGroup;
+			children = (
+				424501E32E844E44004E038B /* Service.swift */,
+			);
+			path = APIClient;
+			sourceTree = "<group>";
+		};
+		424501E62E844E44004E038B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				424501E52E844E44004E038B /* ListViewController.swift */,
+				424501D82E844E17004E038B /* DetailViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		424501E72E844E44004E038B /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		424501EC2E844E44004E038B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				424501E82E844E44004E038B /* Address.swift */,
+				424501E92E844E44004E038B /* Category.swift */,
+				424501EA2E844E44004E038B /* Commerce.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		424501ED2E844E44004E038B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				420B52D52E846C11000D261E /* ListViewModel.swift */,
+				420B52DE2E8559DD000D261E /* ListCellViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		424501EE2E844E44004E038B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				420B52D92E8557AF000D261E /* ListComponents */,
+				420B52D32E846B0B000D261E /* ListView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -72,9 +190,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				424501BA2E844DDF004E038B /* CommercesApp */,
 			);
 			name = CommercesApp;
 			packageProductDependencies = (
@@ -99,11 +214,12 @@
 				};
 			};
 			buildConfigurationList = 424501B32E844DDF004E038B /* Build configuration list for PBXProject "CommercesApp" */;
-			developmentRegion = en;
+			developmentRegion = es;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = 424501AF2E844DDF004E038B;
 			minimizedProjectReferenceProxies = 1;
@@ -122,6 +238,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				424501DA2E844E17004E038B /* Assets.xcassets in Resources */,
+				424501F82E8450C8004E038B /* Localizable.strings in Resources */,
+				424501DC2E844E17004E038B /* LaunchScreen.storyboard in Resources */,
+				424501DD2E844E17004E038B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,10 +252,52 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				420B52D62E846C11000D261E /* ListViewModel.swift in Sources */,
+				424501DE2E844E17004E038B /* AppDelegate.swift in Sources */,
+				420B52D82E846F8C000D261E /* UIViewExtension.swift in Sources */,
+				424501DF2E844E17004E038B /* SceneDelegate.swift in Sources */,
+				420B52E12E86F7F8000D261E /* ListCategoryView.swift in Sources */,
+				424501E02E844E17004E038B /* DetailViewController.swift in Sources */,
+				424501EF2E844E44004E038B /* Service.swift in Sources */,
+				424501F02E844E44004E038B /* ListViewController.swift in Sources */,
+				424501F12E844E44004E038B /* Commerce.swift in Sources */,
+				420B52DD2E8557DE000D261E /* ListCellView.swift in Sources */,
+				420B52DF2E8559DD000D261E /* ListCellViewModel.swift in Sources */,
+				424501F42E844E44004E038B /* Category.swift in Sources */,
+				424501F52E844E44004E038B /* Address.swift in Sources */,
+				420B52D42E846B0B000D261E /* ListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		424501D42E844E17004E038B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				424501D32E844E17004E038B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		424501D62E844E17004E038B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				424501D52E844E17004E038B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		424501F62E8450C8004E038B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				424501F72E8450C8004E038B /* en */,
+				424501FB2E845197004E038B /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		424501CC2E844DE1004E038B /* Debug */ = {
@@ -197,6 +359,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -260,6 +423,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

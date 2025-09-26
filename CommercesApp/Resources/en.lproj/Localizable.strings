@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  CommercesApp
+
+  Created by Jose Maria Mata Ojeda on 24/9/25.
+  
+*/
+
+//Literales del listado
+"list_title" = "Commerce list";
+//Literales del detalle
+"detail_map" = "Take me here";

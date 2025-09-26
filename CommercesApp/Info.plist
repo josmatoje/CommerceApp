@@ -17,6 +17,12 @@
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 					<key>UISceneStoryboardFile</key>
 					<string>Main</string>
+                    <key>NSLocationWhenInUseUsageDescription</key>
+                    <string>Description</string>
+                    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+                    <string>Description</string>
+                    <key>NSLocationAlwaysUsageDescription</key>
+                    <string>Description</string>
 				</dict>
 			</array>
 		</dict>
