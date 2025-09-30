@@ -8,64 +8,46 @@
 import Foundation
 import UIKit
 
+protocol ListCellViewModelDelegate: AnyObject {
+    func didSelectCommerce(_ commerceId: Int)
+}
+
 final class ListCellViewModel {
     
     //MARK: parameters
-    private let category: Category
+
+    public weak var delegate: ListCellViewModelDelegate?
+    
+    private let id: Int
+    public let category: Category
     public let distance: String
     private let imageURL: String
     public let title: String
-    public let adress: Address
+    public let address: Address
+    
     
     //MARK: init
-    init(category: Category, distance: String, imageURL: String, title: String, adress: Address) {
+    init(id: Int, category: Category, distance: String, imageURL: String, title: String, address: Address) {
+        self.id = id
         self.category = category
         self.distance = distance
         self.imageURL = imageURL
         self.title = title
-        self.adress = adress
+        self.address = address
     }
     
     //MARK: functions
-    public func categoryIcon() -> String {
-        switch category {
-        case .food:
-            return "Catering_white"
-        case .shopping:
-            return "Cart_white"
-        case .beauty:
-            return "Car wash_white"
-        case .leisure:
-            return "Leisure_white"
-        case .directSales:
-            return "Payment_Regulated_Parking_white"
-        case .electricStation:
-            return "Electric Scooter_white"
-        case .gasStation:
-            return "EES_white"
+    public func addressFormated() -> String {
+        if let street = address.street,
+           let city = address.city,
+           let state = address.state,
+           let zip = address.zip,
+           let country = address.country
+           {
+            return "\(street)\n\(zip) - \(city), \(state)\n\(country.uppercased())"
+        } else {
+            return "Dirección desconocida" //TODO: Localized
         }
-    }
-    
-    public func categoryColor() -> UIColor {
-        switch category {
-        case .beauty:
-            return .systemOrange
-        case .directSales:
-            return .systemBlue
-        case .electricStation:
-            return .systemTeal
-        case .food:
-            return .systemPurple
-        case .gasStation:
-            return .systemRed
-        case .leisure:
-            return .systemYellow
-        case .shopping:
-            return .systemGreen
-        }
-    }
-    public func categoryName() -> String {
-        return category.rawValue
     }
     
     public func fetchImage(completion: @escaping (Result<Data, Error>) -> Void) {
@@ -82,6 +64,12 @@ final class ListCellViewModel {
             completion(.success(data))
         }
         task.resume()
+    }
+    
+    public func selectCell() {
+        DispatchQueue.main.async {
+            self.delegate?.didSelectCommerce(self.id)
+        }
     }
 }
 

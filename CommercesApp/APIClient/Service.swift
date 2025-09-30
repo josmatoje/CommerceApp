@@ -34,10 +34,11 @@ final class Service {
             }
             do {
                 let result = try JSONDecoder().decode([Commerce].self, from: data)
+                completion(.success(result))
 //                let filterResult = result.filter{
 //                    $0.photo != ""
 //                }
-                completion(.success(result))
+//                completion(.success(filterResult))
             } catch {
                 completion(.failure(error))
             }

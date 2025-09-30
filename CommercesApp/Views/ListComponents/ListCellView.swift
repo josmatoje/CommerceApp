@@ -16,7 +16,7 @@ class ListCellView: UICollectionViewCell {
         topView.backgroundColor = .orange
         topView.translatesAutoresizingMaskIntoConstraints = false
         
-        topView.layer.cornerRadius = 16
+        topView.layer.cornerRadius = 8
         topView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         
         return topView
@@ -50,8 +50,11 @@ class ListCellView: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.textColor = .label
-        titleLabel.font = .systemFont(ofSize: 18,
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.font = .systemFont(ofSize: 14,
                                      weight: .medium)
+        titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.numberOfLines = 0
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         return titleLabel
     }()
@@ -59,8 +62,10 @@ class ListCellView: UICollectionViewCell {
     private let descriptionLabel: UILabel = {
         let descriptionLabel = UILabel()
         descriptionLabel.textColor = .label
-        descriptionLabel.font = .systemFont(ofSize: 16,
+        descriptionLabel.font = .systemFont(ofSize: 12,
                                      weight: .light)
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.numberOfLines = 0
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         return descriptionLabel
     }()
@@ -71,7 +76,7 @@ class ListCellView: UICollectionViewCell {
         contentView.backgroundColor = .systemBackground
         contentView.addSubviews(topView, iconView, distanceLabel, imageView, titleLabel, descriptionLabel)
         addConstraints()
-        contentView.layer.cornerRadius = 16
+        contentView.layer.cornerRadius = 8
         contentView.layer.shadowColor = UIColor.label.cgColor
         contentView.layer.shadowOffset = CGSize(width: 1, height: 2)
         contentView.layer.shadowOpacity = 0.1
@@ -106,10 +111,13 @@ class ListCellView: UICollectionViewCell {
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
             
+            titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 4),
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             titleLabel.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -8),
             
             descriptionLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16),
+            descriptionLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -32)
         ])
     }
@@ -124,9 +132,12 @@ class ListCellView: UICollectionViewCell {
     }
     
     public func configure(with viewModel: ListCellViewModel){
-        topView.backgroundColor = viewModel.categoryColor()
-        iconView.image = UIImage(named: viewModel.categoryIcon())
+        topView.backgroundColor = viewModel.category.color()
+        iconView.image = UIImage(named: viewModel.category.whiteIcon())
         distanceLabel.text = viewModel.distance
+        titleLabel.text = viewModel.title
+        descriptionLabel.text = viewModel.addressFormated()
+        
         viewModel.fetchImage { [weak self] result in //weak for no memory leaks from the cells by the image
             switch result {
                 case .success(let image):
@@ -136,9 +147,11 @@ class ListCellView: UICollectionViewCell {
                     }
                 case .failure:
                     print("Error fetching image")
-                let image: UIImage? = UIImage(named: "only_image")
-//                let image: UIImage? = UIImage(named: "placeholder")
-                    self?.imageView.image = image
+                    DispatchQueue.main.async {
+                        let image: UIImage? = UIImage(named: "only_image")
+//                        let image: UIImage? = UIImage(named: "placeholder")
+                        self?.imageView.image = image
+                    }
                     break
                 }
         }

@@ -7,9 +7,18 @@
 
 import UIKit
 
+protocol ListViewDelegate: AnyObject {
+    func listView(
+        _ listView: ListView,
+        didSelectCommerce commerce: Commerce
+    )
+}
+
 final class ListView: UIView {
 
-    // MARK:
+    // MARK: propierties
+    public weak var delegate: ListViewDelegate?
+    
     private let viewModel = ListViewModel()
     
     private let spinner: UIActivityIndicatorView = {
@@ -17,6 +26,19 @@ final class ListView: UIView {
         spinner.hidesWhenStopped = true
         spinner.translatesAutoresizingMaskIntoConstraints = false
         return spinner
+    } ()
+    
+    private var countView: BannerView =  {
+        let countView = BannerView(frame: .zero)
+        countView.translatesAutoresizingMaskIntoConstraints = false
+        return countView
+    } ()
+    
+    
+    private var distanceView: BannerView = {
+        let distanceView = BannerView(frame: .zero)
+        distanceView.translatesAutoresizingMaskIntoConstraints = false
+        return distanceView
     } ()
     
     private let categoriesView: UICollectionView = {
@@ -29,6 +51,7 @@ final class ListView: UIView {
         categoriesView.translatesAutoresizingMaskIntoConstraints = false
         categoriesView.register(ListCategoryView.self, forCellWithReuseIdentifier: ListCategoryView.cellIdentifier)
         categoriesView.backgroundColor = .secondarySystemBackground
+        categoriesView.showsHorizontalScrollIndicator = false
         return categoriesView
     } ()
     
@@ -40,8 +63,13 @@ final class ListView: UIView {
         collectionView.isHidden = true
         collectionView.alpha = 0
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(ListCellView.self, forCellWithReuseIdentifier: ListCellView.cellIdentifier)
+        collectionView.register(ListCellView.self,
+                                forCellWithReuseIdentifier: ListCellView.cellIdentifier)
         collectionView.backgroundColor = .secondarySystemBackground
+        
+        collectionView.register(LoadingCollectionReusableView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                withReuseIdentifier: LoadingCollectionReusableView.identifier)
         return collectionView
     } ()
     
@@ -51,8 +79,9 @@ final class ListView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .secondarySystemBackground
         viewModel.delegate = self
+        viewModel.categoryDataSource.delegate = self
         viewModel.fetchCommerces()
-        addSubviews(categoriesView, collectionView, spinner)
+        addSubviews(countView, distanceView, categoriesView, collectionView, spinner)
         addConstraints()
         
         spinner.startAnimating()
@@ -71,12 +100,22 @@ final class ListView: UIView {
             spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
             
-            categoriesView.topAnchor.constraint(equalTo: topAnchor, constant: 32),
-            categoriesView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            categoriesView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            categoriesView.bottomAnchor.constraint(equalTo: collectionView.topAnchor, constant: -32),
+            countView.heightAnchor.constraint(equalToConstant: 100),
+            countView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 24),
+            countView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            countView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             
-            collectionView.topAnchor.constraint(equalTo: categoriesView.bottomAnchor, constant: 32),
+            distanceView.heightAnchor.constraint(equalToConstant: 100),
+            distanceView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width/2 - 24),
+            distanceView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            distanceView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            
+            categoriesView.heightAnchor.constraint(equalToConstant: 72),
+            categoriesView.topAnchor.constraint(equalTo: countView.bottomAnchor, constant: 16),
+            categoriesView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            categoriesView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 16),
+
+            collectionView.topAnchor.constraint(equalTo: categoriesView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -84,24 +123,63 @@ final class ListView: UIView {
     }
     
     private func setUpCollectionView() {
-        categoriesView.dataSource = viewModel
-        categoriesView.delegate = viewModel
+        categoriesView.dataSource = viewModel.categoryDataSource
+        categoriesView.delegate = viewModel.categoryDataSource
         
-        collectionView.dataSource = viewModel
-        collectionView.delegate = viewModel
+        collectionView.dataSource = viewModel.commerceDataSource
+        collectionView.delegate = viewModel.commerceDataSource
     }
-    
 }
 
 extension ListView: ListViewModelDelegate {
     func didLoadTotalCommerce() {
+        viewModel.commerceDataSource.commerces.forEach { $0.delegate = self }
+        
+        countView.configure(
+            with: UIColor(named: "ContentColor") ?? .secondarySystemBackground,
+            number: viewModel.filterCommercesCount,
+            numberColor: .white,
+            descriptionText: "Comercios",
+            descriptionColor: .white)
+        distanceView.configure(
+            with: .systemBackground,
+            number: 10,
+            numberColor: .systemOrange,
+            descriptionText: "A menos de x km",
+            descriptionColor: .systemGray2
+        )
+        
         spinner.stopAnimating()
+        
+        countView.isHidden = false
+        distanceView.isHidden = false
+        categoriesView.isHidden = false
         collectionView.isHidden = false
         
+        categoriesView.reloadData()
         collectionView.reloadData()
         
         UIView.animate(withDuration: 0.3) {
+            self.countView.alpha = 1
+            self.distanceView.alpha = 1
+            self.categoriesView.alpha = 1
             self.collectionView.alpha = 1
         }
     }
+}
+extension ListView: ListCellViewModelDelegate {
+    func didSelectCommerce(_ commerceId: Int) {
+        if let commerce = viewModel.getCommerce(for: commerceId) {
+            delegate?.listView(self, didSelectCommerce: commerce)
+        }
+    }
+}
+
+extension ListView: CategoryDataSourceDelegate {
+    
+    func categorySelected(_ category: Category?) {
+        viewModel.resetComerceList()
+        viewModel.loadInitialCommerces()
+    }
+    
 }

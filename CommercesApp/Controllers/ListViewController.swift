@@ -8,8 +8,8 @@
 import UIKit
 import CoreLocation
 
-class ListViewController: UIViewController {
-    
+final class ListViewController: UIViewController, ListViewDelegate {
+
     private let listView = ListView()
     
     override func viewDidLoad() {
@@ -17,6 +17,8 @@ class ListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         self.title = NSLocalizedString("list_title", comment: "Title")
         self.navigationItem.largeTitleDisplayMode = .automatic
+        
+        listView.delegate = self
         
         view.addSubview(listView)
         NSLayoutConstraint.activate([
@@ -26,5 +28,14 @@ class ListViewController: UIViewController {
             listView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    func listView(_ listView: ListView, didSelectCommerce commerce: Commerce) {
+        //Open detail controller to commerce
+        let viewModel = DetailViewModel(commerce: commerce)
+        let detailViewController = DetailViewController(viewModel: viewModel)
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    
 }
 
