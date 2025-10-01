@@ -10,7 +10,7 @@ import CoreLocation
 
 protocol ListViewModelDelegate: AnyObject {
     func didLoadTotalCommerce()
-//    func didSelectCommerce(_ commerceId: Int)
+    func updateView()
 }
 
 final class ListViewModel: NSObject {
@@ -28,6 +28,8 @@ final class ListViewModel: NSObject {
     private let COMMERCES_PER_LOAD: Int = 30
     private var lastIndex = 0
     private var currrentLocation: CLLocation = CLLocation(latitude: 40.416880, longitude: -3.703837) //Madrid km. 0 40.416880, -3.703837
+    
+    private var isLoagingMoreCommerces: Bool = false
     
     public func filterCommercesbyCategory() -> [Commerce] {
         guard let selectecCategory = categoryDataSource.selectedCategory else {
@@ -51,7 +53,7 @@ final class ListViewModel: NSObject {
     }
     
     public var shouldShowLoadMore: Bool {
-        return lastIndex < filterCommercesCount
+        return commerceDataSource.commerces.count < filterCommercesCount
     }
     
     public func getCommerce(for id: Int) -> Commerce? {
@@ -62,7 +64,6 @@ final class ListViewModel: NSObject {
         Service.shared.execute { [weak self] result in 
             switch result {
                 case .success(let model):
-                    self?.totalCommerces = model
                     model.forEach { [weak self] commerce in
                         self?.orderListCommerces.append(
                             (
@@ -75,13 +76,17 @@ final class ListViewModel: NSObject {
                             )
                         )
                     }
-                self?.orderListCommerces.sort {
-                    if let firstDistance = $0.1, let secondDistance = $1.1 {
-                        return firstDistance < secondDistance
-                    } else {
-                        return false
+                
+                    self?.orderListCommerces.sort {
+                        if let firstDistance = $0.1, let secondDistance = $1.1 {
+                            return firstDistance < secondDistance
+                        } else {
+                            return false
+                        }
                     }
-                }
+                self?.totalCommerces = self?.orderListCommerces.compactMap { commerce in
+                        model.first { $0.id ?? 0 == commerce.0 }
+                } ?? []
                     self?.loadInitialCommerces()
                 case .failure(let error):
                     print ("Error \(error)")
@@ -90,26 +95,28 @@ final class ListViewModel: NSObject {
     }
     
     public func loadInitialCommerces() {
-        repeat { //Load all datas but is slower
+//        repeat { //Load all datas but is slower
             addCommerces()
-        } while lastIndex < filterCommercesCount
+//        } while lastIndex < filterCommercesCount
         DispatchQueue.main.async {
             self.delegate?.didLoadTotalCommerce()
         }
     }
     
     private func addCommerces() {
-        let maximumIndex = lastIndex + COMMERCES_PER_LOAD >= filterCommercesCount ? filterCommercesCount : lastIndex+COMMERCES_PER_LOAD
-
-        for i in lastIndex ..< maximumIndex{
-            if let commerce = filterCommercesbyCategory().first(where: { $0.id ?? 0 == orderListCommerces[i].0 }) {
+//        let maximumIndex = lastIndex + COMMERCES_PER_LOAD >= filterCommercesCount ? filterCommercesCount : lastIndex+COMMERCES_PER_LOAD
+        var commercesAded = 0
+        repeat {
+            if let commerce = filterCommercesbyCategory().first(where: { $0.id ?? 0 == orderListCommerces[lastIndex].0 }) {
                 if let commerceVM = addCommerceVM(commerce: commerce) {
                     commerceDataSource.commerces.append(commerceVM)
+                    commercesAded += 1
                 }
             }
-        }
-        lastIndex += COMMERCES_PER_LOAD
-        
+            lastIndex += 1
+        } while commercesAded < COMMERCES_PER_LOAD && lastIndex < orderListCommerces.count
+        print("lastIndex: \(lastIndex)")
+        isLoagingMoreCommerces = false
     }
     
     private func addCommerceVM(commerce: Commerce) -> ListCellViewModel? {
@@ -121,11 +128,9 @@ final class ListViewModel: NSObject {
             var distanceText = ""
             if distance < 1000 {
                 distanceText = "\(distance.rounded()) m."
-            } else { //} if distance < 10000000 {
+            } else {
                 distance /= 1000
                 distanceText = "\(distance.rounded()) km."
-//            } else {
-//                return nil
             }
             let viewModel = ListCellViewModel(id: id, category: category, distance: distanceText, imageURL: image, title: title, address: description)
             return viewModel
@@ -142,6 +147,10 @@ final class ListViewModel: NSObject {
     public func filterCommerces(byCategory category: Category) {
         resetComerceList()
         loadInitialCommerces()
+    }
+    
+    public func setCellViewModels(delegate: ListCellViewModelDelegate) {
+        commerceDataSource.commerces.filter({$0.delegate == nil}).forEach { $0.delegate = delegate }
     }
 }
 
@@ -167,8 +176,22 @@ extension ListViewModel: CLLocationManagerDelegate {
     }
 }
 
-extension ListViewModel: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard shouldShowLoadMore else { return }
+extension ListViewModel: ListCellDataSourceDelegate {
+    func loadMoreCommerces(_ scrollView: UIScrollView) {
+        guard shouldShowLoadMore, !isLoagingMoreCommerces else { return }
+        
+        let offset = scrollView.contentOffset.y
+        let totalHeight = scrollView.contentSize.height
+        let contentHeight = scrollView.frame.height
+        
+        if offset >= totalHeight - contentHeight {
+            isLoagingMoreCommerces = true
+            print("is loading")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { //Para que se vea el loader, la carga es instantanea realmente.
+                self.addCommerces()
+                self.delegate?.updateView()
+            }
+        }
     }
+    
 }

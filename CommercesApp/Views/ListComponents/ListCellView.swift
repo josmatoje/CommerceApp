@@ -39,6 +39,15 @@ class ListCellView: UICollectionViewCell {
         return distanceLabel
     }()
     
+    private let rightArrow: UIImageView = {
+        let rightArrow = UIImageView(image: UIImage(systemName: "chevron.right"))
+        rightArrow.contentMode = .scaleAspectFit
+        rightArrow.clipsToBounds = true
+        rightArrow.tintColor = .white
+        rightArrow.translatesAutoresizingMaskIntoConstraints = false
+        return rightArrow
+    }()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -74,7 +83,7 @@ class ListCellView: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .systemBackground
-        contentView.addSubviews(topView, iconView, distanceLabel, imageView, titleLabel, descriptionLabel)
+        contentView.addSubviews(topView, iconView, distanceLabel, rightArrow, imageView, titleLabel, descriptionLabel)
         addConstraints()
         contentView.layer.cornerRadius = 8
         contentView.layer.shadowColor = UIColor.label.cgColor
@@ -106,7 +115,11 @@ class ListCellView: UICollectionViewCell {
             iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             
             distanceLabel.topAnchor.constraint(equalTo:  topAnchor, constant: 18),
-            distanceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            distanceLabel.trailingAnchor.constraint(equalTo: rightArrow.trailingAnchor, constant: -16),
+            
+            rightArrow.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            rightArrow.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            rightArrow.bottomAnchor.constraint(equalTo: topView.bottomAnchor, constant: -8),
             
             imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),

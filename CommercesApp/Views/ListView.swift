@@ -80,8 +80,9 @@ final class ListView: UIView {
         backgroundColor = .secondarySystemBackground
         viewModel.delegate = self
         viewModel.categoryDataSource.delegate = self
+        viewModel.commerceDataSource.delegate = viewModel
         viewModel.fetchCommerces()
-        addSubviews(countView, distanceView, categoriesView, collectionView, spinner)
+        addSubviews(spinner, countView, distanceView, categoriesView, collectionView)
         addConstraints()
         
         spinner.startAnimating()
@@ -118,7 +119,7 @@ final class ListView: UIView {
             collectionView.topAnchor.constraint(equalTo: categoriesView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
         ])
     }
     
@@ -141,6 +142,7 @@ extension ListView: ListViewModelDelegate {
             numberColor: .white,
             descriptionText: "Comercios",
             descriptionColor: .white)
+        
         distanceView.configure(
             with: .systemBackground,
             number: 10,
@@ -165,6 +167,11 @@ extension ListView: ListViewModelDelegate {
             self.categoriesView.alpha = 1
             self.collectionView.alpha = 1
         }
+    }
+    
+    func updateView() {
+        viewModel.setCellViewModels(delegate: self)
+        collectionView.reloadData()
     }
 }
 extension ListView: ListCellViewModelDelegate {
